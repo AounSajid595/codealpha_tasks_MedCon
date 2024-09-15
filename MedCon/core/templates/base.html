@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MedCon{% endblock %}</title>
+    <!-- Bootstrap and Tailwind Integration -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-inner ">
+
+                <!-- Brand -->
+                <div class="brand ">
+                    <a href="{% url 'home' %}">
+                        <img class="logo " src="{% static 'img/mc1.png' %}" alt="Logo">
+                    </a>
+                </div>
+
+                <!-- Navbar Links -->
+                <div class="navbar-links flex-1 flex justify-center">
+                    <div class="link-container ">
+                        <div class="link-group">
+                            <a href="{% url 'home' %}" class="navbar-link">Home</a>
+                            <a href="{% url 'explore' %}" class="navbar-link ">Explore</a>
+                            <a href="{% url 'notifications' %}" class="navbar-link ">Notifications</a>
+                            <a href="{% url 'profile' %}" class="navbar-link">Profile</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Bar -->
+
+                <button type="submit" class="search-button ">
+                </button>
+
+
+                <!-- Authentication Links -->
+                <div class="auth-links">
+                    {% if user.is_authenticated %}
+                    <!-- User Dropdown -->
+                    <div class="user-dropdown relative">
+                        <button type="button" class="user-menu-toggle" id="user-menu-button">
+                            <img class="user-avatar" src="{% static 'img/mc2.png' %}" alt="MC">
+                        </button>
+                        <!-- User Dropdown Menu -->
+                        <div class="user-menu" role="menu" aria-orientation="vertical"
+                            aria-labelledby="user-menu-button" tabindex="-1">
+                            <a href="{% url 'profile' %}" class="user-menu-item " role="menuitem" tabindex="-1"
+                                id="user-menu-item-0">Your Profile</a>
+                            <a href="{% url 'logout' %}" class="user-menu-item " role="menuitem" tabindex="-1"
+                                id="user-menu-item-1">Sign out</a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <!-- Sign In / Sign Up Links -->
+                    <a href="{% url 'login' %}" class="navbar-link ">Sign In</a>
+                    <a href="{% url 'register' %}" class="navbar-link">Sign Up</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+    </ul>
+    {% endif %}
+
+    <!-- Main Content -->
+    {% block content %}
+    {% endblock %}
+
+</body>
+
+</html>
